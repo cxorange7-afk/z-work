@@ -561,7 +561,10 @@ def normalize_predictions(df: pd.DataFrame, source: str = "") -> pd.DataFrame:
         out["most_likely_period"] = labels[np.argmax(intervals, axis=1)]
         out["max_period_prob"] = np.max(intervals, axis=1)
     else:
-        out["max_period_prob"] = pd.to_numeric(out.get("max_period_prob", np.nan), errors="coerce").fillna(0.0)
+        if "max_period_prob" in out.columns:
+           out["max_period_prob"] = pd.to_numeric(out["max_period_prob"], errors="coerce").fillna(0.0)
+        else:
+           out["max_period_prob"] = 0.0
 
     out["source"] = source
     return out.sort_values("report_rank").reset_index(drop=True)
