@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import glob
+import html
 import os
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
@@ -165,7 +166,28 @@ def inject_css() -> None:
         .bucket-top10 { background: rgba(245, 158, 11, .18); color: #fde68a; }
         .bucket-top20 { background: rgba(34, 197, 94, .15); color: #bbf7d0; }
         .bucket-other { background: rgba(148, 163, 184, .12); color: #cbd5e1; }
-        div[data-testid="stDataFrame"] { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+        div[data-testid="stDataFrame"] { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: rgba(15,23,42,.82) !important; }
+        div[data-testid="stDataFrame"] * { color: #dbeafe !important; }
+        .dark-table-wrap { border:1px solid rgba(148,163,184,.16); border-radius:16px; overflow:auto; background:rgba(9,14,25,.92); box-shadow:0 10px 26px rgba(0,0,0,.20); margin: 8px 0 16px 0; }
+        table.dark-table { width:100%; border-collapse:collapse; font-size:.82rem; color:#dbeafe; }
+        table.dark-table thead th { position:sticky; top:0; z-index:2; background:linear-gradient(180deg, #172338, #111b2d); color:#7df5e8; text-align:left; font-weight:800; border-bottom:1px solid rgba(35,211,195,.22); padding:10px 12px; white-space:nowrap; }
+        table.dark-table tbody td { padding:9px 12px; border-bottom:1px solid rgba(148,163,184,.10); color:#dbeafe; white-space:nowrap; }
+        table.dark-table tbody tr:nth-child(even) { background:rgba(148,163,184,.045); }
+        table.dark-table tbody tr:hover { background:rgba(35,211,195,.08); }
+        section[data-testid="stSidebar"] div[data-testid="stFileUploader"] section { background:rgba(15,23,42,.86) !important; border:1px dashed rgba(35,211,195,.30) !important; border-radius:16px !important; }
+        section[data-testid="stSidebar"] div[data-testid="stFileUploader"] section * { color:#cbd5e1 !important; }
+        section[data-testid="stSidebar"] div[data-testid="stFileUploader"] button { background:rgba(35,211,195,.10) !important; color:#e6fffb !important; border:1px solid rgba(35,211,195,.32) !important; border-radius:10px !important; }
+        section[data-testid="stSidebar"] input { background:rgba(15,23,42,.86) !important; color:#e5edf7 !important; border:1px solid rgba(148,163,184,.20) !important; }
+        section[data-testid="stSidebar"] div[data-baseweb="input"] { background:rgba(15,23,42,.86) !important; }
+        div[data-baseweb="select"] > div { background:rgba(15,23,42,.86) !important; border-color:rgba(148,163,184,.20) !important; color:#e5edf7 !important; }
+        div[data-baseweb="input"] input { color:#0f172a !important; -webkit-text-fill-color:#0f172a !important; background:#f8fafc !important; caret-color:#0f172a !important; }
+        div[data-testid="stTextInput"] label, div[data-testid="stTextInput"] label p,
+        div[data-testid="stNumberInput"] label, div[data-testid="stNumberInput"] label p,
+        div[data-testid="stSelectbox"] label, div[data-testid="stSelectbox"] label p { color:#ffffff !important; font-weight:800 !important; opacity:1 !important; }
+        div[data-testid="stTextInput"] input { color:#0f172a !important; -webkit-text-fill-color:#0f172a !important; background:#f8fafc !important; caret-color:#0f172a !important; }
+        div[data-testid="stTextInput"] div[data-baseweb="input"] { background:#f8fafc !important; }
+        div[data-testid="stTextInput"] input::placeholder { color:#475569 !important; opacity:1 !important; }
+        section[data-testid="stSidebar"] div[data-baseweb="input"] input { color:#0f172a !important; -webkit-text-fill-color:#0f172a !important; background:#f8fafc !important; }
         div[data-testid="stTabs"] button { color: #cbd5e1; }
         div[data-testid="stTabs"] button[aria-selected="true"] { color: #55f0de; border-bottom-color: #23d3c3; }
         .stDownloadButton button, .stButton button {
@@ -233,6 +255,60 @@ def inject_css() -> None:
         .glossary-card p { color:#9fb0c6; font-size:.82rem; line-height:1.62; margin:6px 0 0 0; }
         .rank-band { height:8px; border-radius:999px; overflow:hidden; display:flex; margin-top:10px; border:1px solid rgba(255,255,255,.08); }
         .rank-band span:nth-child(1){background:#ef4444;width:1%}.rank-band span:nth-child(2){background:#f97316;width:4%}.rank-band span:nth-child(3){background:#f59e0b;width:5%}.rank-band span:nth-child(4){background:#22c55e;width:10%}.rank-band span:nth-child(5){background:#64748b;width:80%}
+
+        /* Sidebar file path input: keep dark style, unlike main query input */
+        section[data-testid="stSidebar"] div[data-testid="stTextInput"] div[data-baseweb="input"] {
+            background: rgba(15,23,42,.92) !important;
+            border: 1px solid rgba(35,211,195,.22) !important;
+            border-radius: 12px !important;
+        }
+        section[data-testid="stSidebar"] div[data-testid="stTextInput"] input {
+            background: rgba(15,23,42,.92) !important;
+            color: #e5edf7 !important;
+            -webkit-text-fill-color: #e5edf7 !important;
+            caret-color: #55f0de !important;
+        }
+        section[data-testid="stSidebar"] div[data-testid="stTextInput"] input::placeholder {
+            color: #94a3b8 !important;
+            opacity: 1 !important;
+        }
+        /* Code/minimum-field box: match dark dashboard style */
+        div[data-testid="stCodeBlock"] {
+            border: 1px solid rgba(35,211,195,.22) !important;
+            border-radius: 14px !important;
+            overflow: hidden !important;
+            background: rgba(9,14,25,.92) !important;
+            box-shadow: 0 10px 26px rgba(0,0,0,.20) !important;
+        }
+        div[data-testid="stCodeBlock"] pre,
+        div[data-testid="stCodeBlock"] code,
+        div[data-testid="stCodeBlock"] span {
+            background: rgba(9,14,25,.92) !important;
+            color: #dbeafe !important;
+            font-size: .88rem !important;
+        }
+        div[data-testid="stCodeBlock"] pre {
+            border: none !important;
+            padding: 14px 16px !important;
+        }
+
+
+        .field-code-box {
+            border: 1px solid rgba(35,211,195,.24);
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(9,14,25,.96), rgba(15,23,42,.92));
+            color: #dbeafe;
+            padding: 15px 17px;
+            margin: 8px 0 20px 0;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+            font-size: .92rem;
+            line-height: 1.75;
+            box-shadow: 0 10px 26px rgba(0,0,0,.20);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .field-code-box .comment { color: #93a4ba; }
+
         @media (max-width: 900px) { .cover-grid, .feature-grid, .glossary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cover-card { padding: 32px 24px; } }
         </style>
         """,
@@ -299,6 +375,27 @@ def insight_box(title: str, body: str) -> None:
     )
 
 
+def dark_table(df: pd.DataFrame, max_height: int = 430) -> None:
+    """用暗色 HTML 表格替代默认白色 dataframe，避免暗色界面中表格刺眼。"""
+    if df is None or len(df) == 0:
+        st.markdown("<div class='notice'>暂无数据。</div>", unsafe_allow_html=True)
+        return
+    safe_df = df.copy()
+    safe_df = safe_df.astype(object).where(pd.notna(safe_df), "—")
+    table_html = safe_df.to_html(index=False, escape=True, classes="dark-table", border=0)
+    st.markdown(f"<div class='dark-table-wrap' style='max-height:{max_height}px'>{table_html}</div>", unsafe_allow_html=True)
+
+
+def clean_code_value(x: object) -> str:
+    """统一债券代码格式，减少 Excel 读入 .0、空格等造成的匹配失败。"""
+    if pd.isna(x):
+        return ""
+    s = str(x).strip()
+    if s.endswith(".0"):
+        s = s[:-2]
+    return s.replace(" ", "").replace("	", "")
+
+
 def feature_card(icon: str, title: str, body: str) -> str:
     return (
         f'<div class="feature-card">'
@@ -310,14 +407,19 @@ def feature_card(icon: str, title: str, body: str) -> str:
 
 
 def render_feature_grid(cards: List[Tuple[str, str, str]]) -> None:
-    html = "<div class='feature-grid'>" + "".join(feature_card(*card) for card in cards) + "</div>"
-    st.markdown(html, unsafe_allow_html=True)
+    # 分列逐个渲染，避免部分浏览器/Streamlit 版本把多段 HTML 误识别为代码块。
+    cols = st.columns(len(cards))
+    for col, card in zip(cols, cards):
+        with col:
+            st.markdown(feature_card(*card), unsafe_allow_html=True)
 
 
 def probability_sentence(row: pd.Series) -> str:
-    y6 = float(row.get("y6m_prob_display", 0.0))
-    y12 = float(row.get("y12m_prob_display", 0.0))
-    y24 = float(row.get("y24m_prob_display", 0.0))
+    y6 = float(row.get("y6m_prob_display", np.nan))
+    y12 = float(row.get("y12m_prob_display", np.nan))
+    y24 = float(row.get("y24m_prob_display", np.nan))
+    if any(pd.isna(v) for v in [y6, y12, y24]):
+        return "该债券部分预测期限概率缺失，建议先核查预测文件字段是否完整接入。"
     near_ratio = y6 / max(y24, 1e-9)
     if y24 < 0.03:
         return "该债券整体违约概率较低，当前更适合作为常规监测对象。"
@@ -394,6 +496,14 @@ def latest_file(patterns: Iterable[str]) -> Optional[str]:
 def default_fold_metrics() -> pd.DataFrame:
     df = pd.DataFrame(FOLD_TEST_METRICS)
     df["horizon_order"] = df["horizon"].map({"6m": 1, "12m": 2, "18m": 3, "24m": 4})
+    split_map = {
+        "Fold1": ("20070101-20191231", "20200101-20201231", "20210101-20211231"),
+        "Fold2": ("20070101-20201231", "20210101-20211231", "20220101-20221231"),
+        "Fold3": ("20070101-20211231", "20220101-20221231", "20230101-20231231"),
+    }
+    df["训练集"] = df["fold"].map(lambda x: split_map.get(x, ("", "", ""))[0])
+    df["验证集"] = df["fold"].map(lambda x: split_map.get(x, ("", "", ""))[1])
+    df["测试集"] = df["fold"].map(lambda x: split_map.get(x, ("", "", ""))[2])
     return df.sort_values(["fold", "horizon_order"]).reset_index(drop=True)
 
 
@@ -427,6 +537,218 @@ def make_demo_predictions(n: int = 360, seed: int = 42) -> pd.DataFrame:
     return normalize_predictions(df, source="demo")
 
 
+def read_any_table(path: str | Path) -> pd.DataFrame:
+    path = str(path)
+    if path.lower().endswith(".csv"):
+        return safe_read_csv(path)
+    if path.lower().endswith((".xlsx", ".xls")):
+        return pd.read_excel(path, engine="openpyxl")
+    if path.lower().endswith(".parquet"):
+        return pd.read_parquet(path)
+    raise ValueError(f"不支持的文件格式：{path}")
+
+
+def _standardize_bond_info_table(info: pd.DataFrame, source_path: str) -> pd.DataFrame:
+    """把 BND_Bndinfo、feature_wide_table 或手工整理的债券信息表统一成前端字段。"""
+    if info is None or info.empty:
+        return pd.DataFrame()
+
+    raw = info.copy()
+    raw.columns = [str(c).strip() for c in raw.columns]
+
+    col_alias = {
+        "BondCode": [
+            "BondCode", "bond_code", "债券代码", "证券代码", "交易代码", "代码", "Liscd", "InnerCode"
+        ],
+        "BondName": [
+            "BondName", "bond_name", "债券名称", "债券简称", "证券简称", "简称", "Abbrnme", "Bndnme"
+        ],
+        "Issuer": [
+            "Issuer", "issuer", "发行人", "发行主体", "发行公司", "公司名称", "主体名称",
+            "发行机构全称", "发行人全称", "发行人名称", "Conme"
+        ],
+        "IssueDate": [
+            "IssueDate", "issue_date", "发行日期", "发行时间", "发行起始日", "发行起始日期",
+            "起息日期", "上市日期", "Listdt", "StartDate"
+        ],
+        "MaturityDate": [
+            "MaturityDate", "maturity_date", "到期日期", "债券到期日", "到期日",
+            "兑付日期", "摘牌日期", "EndDate", "Matudt"
+        ],
+        "BondType": [
+            "BondType", "bond_type", "债券类型", "债券类别", "债券分类", "券种",
+            "债券种类", "Bndtype"
+        ],
+        "CreditRating": [
+            "CreditRating", "credit_rating", "债项评级", "债券评级", "主体评级",
+            "信用评级", "债券信用评级", "Crdrate"
+        ],
+        "Term": ["Term", "term", "期限", "发行期限", "发行期限年", "债券期限", "Bndterm"],
+        "CouponRate": ["CouponRate", "coupon_rate", "票面利率", "发行利率", "Intrrate"],
+        "IssueAmount": ["IssueAmount", "issue_amount", "实际发行量", "发行规模", "发行规模亿", "Acisuquty"],
+    }
+
+    normalized_name = {str(c).strip().replace(" ", ""): c for c in raw.columns}
+    lower_name = {str(c).strip().lower().replace(" ", ""): c for c in raw.columns}
+
+    def find_col(aliases: List[str]) -> Optional[str]:
+        for a in aliases:
+            key = str(a).strip().replace(" ", "")
+            if key in normalized_name:
+                return normalized_name[key]
+            key_low = key.lower()
+            if key_low in lower_name:
+                return lower_name[key_low]
+        return None
+
+    normalized = pd.DataFrame(index=raw.index)
+    for std, aliases in col_alias.items():
+        hit = find_col(aliases)
+        if hit is not None:
+            normalized[std] = raw[hit]
+
+    if "BondCode" not in normalized.columns:
+        return pd.DataFrame()
+
+    normalized["_merge_code"] = normalized["BondCode"].map(clean_code_value)
+    normalized = normalized[normalized["_merge_code"].str.fullmatch(r"\d+", na=False)].copy()
+    if normalized.empty:
+        return pd.DataFrame()
+
+    def format_date_series(s: pd.Series) -> pd.Series:
+        original = s.astype(str).replace({"nan": np.nan, "NaT": np.nan, "None": np.nan, "没有单位": np.nan})
+        parsed = pd.to_datetime(original, errors="coerce")
+        numeric = pd.to_numeric(s, errors="coerce")
+        excel_mask = parsed.isna() & numeric.between(20000, 60000)
+        if excel_mask.any():
+            parsed2 = pd.to_datetime(numeric[excel_mask], unit="D", origin="1899-12-30", errors="coerce")
+            parsed.loc[excel_mask] = parsed2
+        out = parsed.dt.strftime("%Y-%m-%d")
+        return out.where(parsed.notna(), original)
+
+    if "IssueDate" in normalized.columns:
+        normalized["IssueDate"] = format_date_series(normalized["IssueDate"])
+    if "MaturityDate" in normalized.columns:
+        normalized["MaturityDate"] = format_date_series(normalized["MaturityDate"])
+
+    if ("MaturityDate" not in normalized.columns or normalized["MaturityDate"].isna().all()) and {"IssueDate", "Term"}.issubset(normalized.columns):
+        issue_dt = pd.to_datetime(normalized["IssueDate"], errors="coerce")
+        term_num = pd.to_numeric(normalized["Term"], errors="coerce")
+        normalized["MaturityDate"] = (issue_dt + pd.to_timedelta((term_num * 365.25).round(), unit="D")).dt.strftime("%Y-%m-%d")
+
+    normalized["_info_source"] = source_path
+    return normalized
+
+
+@st.cache_data(show_spinner=False)
+def load_bnd_info() -> Tuple[pd.DataFrame, Dict[str, object]]:
+    """读取债券基本信息静态资源。优先读取轻量 CSV，避免 Excel 反复读取导致页面卡住。"""
+    patterns = [
+        # 推荐：由 BND_Bndinfo.xlsx 预处理得到的轻量表，加载最快
+        "bnd_info_compact.csv", "data/bnd_info_compact.csv", "static/bnd_info_compact.csv", f"{DEFAULT_OUTPUT_DIR}/bnd_info_compact.csv",
+        # 也兼容完整 BND_Bndinfo 表；若没有 compact csv，则自动读取它
+        "BND_Bndinfo.xlsx", "BND_Bndinfo.xls", "bnd_info.xlsx", "bnd_info.xls", "bnd_info.csv",
+        "data/BND_Bndinfo.xlsx", "static/BND_Bndinfo.xlsx", f"{DEFAULT_OUTPUT_DIR}/BND_Bndinfo.xlsx",
+    ]
+
+    files: List[str] = []
+    for pat in patterns:
+        files.extend(glob.glob(pat, recursive=False))
+
+    # 去重并保留 patterns 的优先级；不再用 ** 全盘扫描，也不再同时读取多个 Excel。
+    seen = set()
+    ordered_files = []
+    for f in files:
+        norm = str(Path(f))
+        if norm not in seen:
+            ordered_files.append(norm)
+            seen.add(norm)
+
+    if not ordered_files:
+        return pd.DataFrame(), {
+            "found": False,
+            "path": None,
+            "message": "未发现债券基本信息表。建议将 bnd_info_compact.csv 或 BND_Bndinfo.xlsx 放在 app.py 同级目录。"
+        }
+
+    error_msgs = []
+    for path in ordered_files:
+        try:
+            info = read_any_table(path)
+            std = _standardize_bond_info_table(info, path)
+            if std.empty:
+                error_msgs.append(f"{path} 未识别到有效债券代码或信息列")
+                continue
+
+            keep_cols = ["_merge_code", "BondName", "Issuer", "IssueDate", "MaturityDate", "BondType", "CreditRating", "Term", "CouponRate", "IssueAmount", "_info_source"]
+            for c in keep_cols:
+                if c not in std.columns:
+                    std[c] = np.nan
+
+            invalid_tokens = ["", "—", "-", "未知", "未知发行人", "Unknown", "unknown", "nan", "None", "NaN", "没有单位"]
+            normalized_source = std[keep_cols].copy()
+            for c in keep_cols:
+                if c != "_merge_code":
+                    normalized_source[c] = normalized_source[c].where(~normalized_source[c].astype(str).str.strip().isin(invalid_tokens), np.nan)
+
+            normalized = normalized_source.groupby("_merge_code", as_index=False).first()
+            return normalized, {
+                "found": True,
+                "path": path,
+                "message": f"已读取债券基本信息静态资源：{path}，共 {len(normalized):,} 条。"
+            }
+        except Exception as exc:
+            error_msgs.append(f"{path} 读取失败：{exc}")
+
+    return pd.DataFrame(), {
+        "found": False,
+        "path": "; ".join(ordered_files[:3]),
+        "message": "已发现候选表，但读取或字段识别失败：" + "；".join(error_msgs[:3])
+    }
+
+
+def attach_bnd_info(pred_df: pd.DataFrame, info_df: pd.DataFrame) -> pd.DataFrame:
+    if info_df is None or info_df.empty:
+        pred_df["bnd_info_matched"] = False
+        return pred_df
+    out = pred_df.copy()
+    out["_merge_code"] = out["BondCode"].map(clean_code_value)
+    add_cols = [c for c in ["_merge_code", "BondName", "Issuer", "IssueDate", "MaturityDate", "BondType", "CreditRating", "Term", "CouponRate", "IssueAmount"] if c in info_df.columns]
+    merged = out.merge(info_df[add_cols], on="_merge_code", how="left", suffixes=("", "_info"))
+    for col in ["BondName", "Issuer", "IssueDate", "MaturityDate", "BondType", "CreditRating", "Term", "CouponRate", "IssueAmount"]:
+        info_col = f"{col}_info"
+        if info_col in merged.columns:
+            if col not in merged.columns:
+                merged[col] = merged[info_col]
+            else:
+                current = merged[col].astype(str).str.strip()
+                empty_tokens = ["", "—", "-", "未知", "未知发行人", "nan", "None", "NaN"]
+                empty_mask = merged[col].isna() | current.isin(empty_tokens)
+                # 预测文件里如果没有债券名称，前端会先用代码兜底；此时也应被基本信息表覆盖。
+                if col == "BondName" and "BondCode" in merged.columns:
+                    empty_mask = empty_mask | (current == merged["BondCode"].astype(str).str.strip())
+                if col == "Issuer" and "BondCode" in merged.columns:
+                    empty_mask = empty_mask | (current == merged["BondCode"].astype(str).str.strip())
+                merged[col] = merged[col].astype(object)
+                merged.loc[empty_mask, col] = merged.loc[empty_mask, info_col]
+            merged = merged.drop(columns=[info_col])
+    # 保证页面固定展示列一定存在，避免静态信息表缺少某些字段时报 KeyError。
+    for col in ["BondName", "Issuer", "IssueDate", "MaturityDate", "BondType", "CreditRating", "Term", "CouponRate", "IssueAmount"]:
+        if col not in merged.columns:
+            merged[col] = np.nan
+    matched_cols = [c for c in ["Issuer", "Term", "CreditRating"] if c in merged.columns]
+    if matched_cols:
+        valid_match = False
+        for c in matched_cols:
+            s = merged[c].astype(str).str.strip()
+            valid_match = valid_match | (~merged[c].isna() & ~s.isin(["", "—", "-", "未知", "未知发行人", "nan", "None", "NaN"]))
+        merged["bnd_info_matched"] = valid_match
+    else:
+        merged["bnd_info_matched"] = False
+    merged = merged.drop(columns=["_merge_code"], errors="ignore")
+    return merged
+
+
 def read_prediction_file(uploaded_file=None, explicit_path: Optional[str] = None) -> Tuple[pd.DataFrame, Dict[str, object]]:
     """读取预测结果。优先级：上传文件 > 显式路径 > output_expanding/latest csv > parquet > demo。"""
     status: Dict[str, object] = {
@@ -437,8 +759,10 @@ def read_prediction_file(uploaded_file=None, explicit_path: Optional[str] = None
 
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
-        status.update({"mode": "uploaded", "source_path": getattr(uploaded_file, "name", "uploaded.csv"), "message": "已读取侧边栏上传的预测 CSV。"})
-        return normalize_predictions(df, source="uploaded"), status
+        info_df, info_status = load_bnd_info()
+        out = attach_bnd_info(normalize_predictions(df, source="uploaded"), info_df)
+        status.update({"mode": "uploaded", "source_path": getattr(uploaded_file, "name", "uploaded.csv"), "message": "已读取侧边栏上传的预测 CSV。", "bnd_info": info_status})
+        return out, status
 
     if explicit_path and Path(explicit_path).exists():
         path = str(explicit_path)
@@ -448,36 +772,44 @@ def read_prediction_file(uploaded_file=None, explicit_path: Optional[str] = None
             df = pd.read_parquet(path)
         else:
             raise ValueError("仅支持 csv 或 parquet 文件。")
-        status.update({"mode": "file", "source_path": path, "message": f"已读取 {path}"})
-        return normalize_predictions(df, source=path), status
+        info_df, info_status = load_bnd_info()
+        out = attach_bnd_info(normalize_predictions(df, source=path), info_df)
+        status.update({"mode": "file", "source_path": path, "message": f"已读取 {path}", "bnd_info": info_status})
+        return out, status
 
     csv_path = latest_file(
         [
             f"{DEFAULT_OUTPUT_DIR}/predictions_*.csv",
             "predictions_*.csv",
-            "**/predictions_*.csv",
         ]
     )
     if csv_path:
         df = safe_read_csv(csv_path)
-        status.update({"mode": "file", "source_path": csv_path, "message": f"已读取 {csv_path}"})
-        return normalize_predictions(df, source=csv_path), status
+        info_df, info_status = load_bnd_info()
+        out = attach_bnd_info(normalize_predictions(df, source=csv_path), info_df)
+        status.update({"mode": "file", "source_path": csv_path, "message": f"已读取 {csv_path}", "bnd_info": info_status})
+        return out, status
 
     parquet_path = latest_file(
         [
-            "**/inference_predictions_calibrated.parquet",
-            "**/production_predictions_long.parquet",
+            "inference_predictions_calibrated.parquet",
+            "production_predictions_long.parquet",
         ]
     )
     if parquet_path:
         try:
             df = pd.read_parquet(parquet_path)
-            status.update({"mode": "file", "source_path": parquet_path, "message": f"已读取 {parquet_path}"})
-            return normalize_predictions(df, source=parquet_path), status
+            info_df, info_status = load_bnd_info()
+            out = attach_bnd_info(normalize_predictions(df, source=parquet_path), info_df)
+            status.update({"mode": "file", "source_path": parquet_path, "message": f"已读取 {parquet_path}", "bnd_info": info_status})
+            return out, status
         except Exception as exc:  # pragma: no cover - 仅部署环境中使用
             status["message"] = f"发现 parquet 但读取失败：{exc}，已使用演示数据。"
 
-    return make_demo_predictions(), status
+    info_df, info_status = load_bnd_info()
+    out = attach_bnd_info(make_demo_predictions(), info_df)
+    status["bnd_info"] = info_status
+    return out, status
 
 
 def normalize_predictions(df: pd.DataFrame, source: str = "") -> pd.DataFrame:
@@ -499,7 +831,10 @@ def normalize_predictions(df: pd.DataFrame, source: str = "") -> pd.DataFrame:
     if "BondName" not in out.columns:
         out["BondName"] = out.get("债券名称", out["BondCode"].astype(str))
     if "Issuer" not in out.columns:
-        out["Issuer"] = out.get("发行人", "未知发行人")
+        out["Issuer"] = out.get("发行人", "—")
+    for col in ["IssueDate", "MaturityDate", "BondType", "CreditRating", "Term", "CouponRate", "IssueAmount"]:
+        if col not in out.columns:
+            out[col] = np.nan
     if "PeriodEnd" not in out.columns:
         out["PeriodEnd"] = out.get("inference_date", out.get("sem_str", "未知"))
 
@@ -517,9 +852,11 @@ def normalize_predictions(df: pd.DataFrame, source: str = "") -> pd.DataFrame:
         "y24m": ["y24m_prob_raw", "y24m_prob", "y24m_cum_prob"],
     }
 
+    prob_source_cols: Dict[str, Optional[str]] = {}
     for h in HORIZON_ORDER:
         cal_col = next((c for c in col_candidates[h] if c in out.columns), None)
         raw_col = next((c for c in raw_candidates[h] if c in out.columns), cal_col)
+        prob_source_cols[h] = cal_col
         if cal_col is None:
             out[f"{h}_prob_display"] = np.nan
         else:
@@ -529,14 +866,28 @@ def normalize_predictions(df: pd.DataFrame, source: str = "") -> pd.DataFrame:
         else:
             out[f"{h}_prob_rank"] = pd.to_numeric(out[raw_col], errors="coerce")
 
-    # 兜底：如果概率全空，填 0，避免页面崩溃。
+    # 概率口径修正：若读取到 0-100 百分制，自动换算为 0-1；缺失不再强行填 0，避免出现“前期全 0、24 月极高”的误导展示。
     for h in HORIZON_ORDER:
-        out[f"{h}_prob_display"] = out[f"{h}_prob_display"].fillna(0.0).clip(0, 1)
-        out[f"{h}_prob_rank"] = out[f"{h}_prob_rank"].fillna(out[f"{h}_prob_display"]).clip(0, 1)
+        for suffix in ["display", "rank"]:
+            col = f"{h}_prob_{suffix}"
+            s = pd.to_numeric(out[col], errors="coerce")
+            valid = s.dropna()
+            if len(valid) and valid.max() > 1 and valid.max() <= 100:
+                s = s / 100.0
+            out[col] = s.where((s >= 0) & (s <= 1), np.nan)
+        out[f"{h}_prob_missing"] = out[f"{h}_prob_display"].isna()
+
+    # 用于排序的 24m 若缺失，则退而使用可用的最长预测期限；显示仍保留缺失。
+    available_rank_cols = [f"{h}_prob_rank" for h in HORIZON_ORDER if out[f"{h}_prob_rank"].notna().any()]
+    if not out["y24m_prob_rank"].notna().any() and available_rank_cols:
+        out["y24m_prob_rank"] = out[available_rank_cols].bfill(axis=1).iloc[:, -1]
+    for h in HORIZON_ORDER:
+        out[f"{h}_prob_rank"] = out[f"{h}_prob_rank"].fillna(out[f"{h}_prob_display"])
 
     # 排名和风险桶：默认按 y24m raw/rank 口径。
     n = max(len(out), 1)
-    out["report_rank"] = out["y24m_prob_rank"].rank(method="first", ascending=False).astype(int)
+    rank_base = out["y24m_prob_rank"].fillna(-1)
+    out["report_rank"] = rank_base.rank(method="first", ascending=False).astype(int)
     out["report_rank_pct"] = out["report_rank"] / n
     if "risk_bucket_by_y24m" not in out.columns:
         out["risk_bucket_by_y24m"] = out["report_rank_pct"].apply(risk_bucket_from_rank_pct)
@@ -544,27 +895,40 @@ def normalize_predictions(df: pd.DataFrame, source: str = "") -> pd.DataFrame:
         out["risk_bucket_by_y24m"] = out["risk_bucket_by_y24m"].fillna(out["report_rank_pct"].apply(risk_bucket_from_rank_pct))
 
     # 最可能违约时段。若建模脚本已经保存 most_likely_period，则直接使用；否则用各期差分粗略推断。
+    prob_matrix = out[[f"{h}_prob_display" for h in HORIZON_ORDER]].to_numpy(dtype=float)
+    missing_any = np.isnan(prob_matrix).any(axis=1)
+    nonmono = np.zeros(len(out), dtype=bool)
+    with np.errstate(invalid="ignore"):
+        nonmono = np.nanmin(np.diff(prob_matrix, axis=1), axis=1) < -1e-8
+    suspicious_jump = (
+        (np.nan_to_num(out["y6m_prob_display"], nan=0) <= 1e-8)
+        & (np.nan_to_num(out["y12m_prob_display"], nan=0) <= 1e-8)
+        & (np.nan_to_num(out["y18m_prob_display"], nan=0) <= 1e-8)
+        & (np.nan_to_num(out["y24m_prob_display"], nan=0) >= 0.50)
+    )
+    out["prob_quality_flag"] = np.select(
+        [missing_any, nonmono, suspicious_jump],
+        ["缺少部分期限概率", "期限结构非单调", "24个月异常跳升"],
+        default="正常",
+    )
+
     if "most_likely_period" not in out.columns:
-        y6 = out["y6m_prob_display"].to_numpy()
-        y12 = out["y12m_prob_display"].to_numpy()
-        y18 = out["y18m_prob_display"].to_numpy()
-        y24 = out["y24m_prob_display"].to_numpy()
-        intervals = np.vstack(
-            [
-                y6,
-                np.clip(y12 - y6, 0, 1),
-                np.clip(y18 - y12, 0, 1),
-                np.clip(y24 - y18, 0, 1),
-            ]
-        ).T
+        y6 = out["y6m_prob_display"].to_numpy(dtype=float)
+        y12 = out["y12m_prob_display"].to_numpy(dtype=float)
+        y18 = out["y18m_prob_display"].to_numpy(dtype=float)
+        y24 = out["y24m_prob_display"].to_numpy(dtype=float)
+        intervals = np.vstack([
+            y6,
+            np.clip(y12 - y6, 0, 1),
+            np.clip(y18 - y12, 0, 1),
+            np.clip(y24 - y18, 0, 1),
+        ]).T
         labels = np.array(["0–6月", "6–12月", "12–18月", "18–24月"])
-        out["most_likely_period"] = labels[np.argmax(intervals, axis=1)]
-        out["max_period_prob"] = np.max(intervals, axis=1)
+        safe_intervals = np.nan_to_num(intervals, nan=-1)
+        out["most_likely_period"] = np.where(missing_any, "缺少期限概率", labels[np.argmax(safe_intervals, axis=1)])
+        out["max_period_prob"] = np.where(missing_any, np.nan, np.nanmax(intervals, axis=1))
     else:
-        if "max_period_prob" in out.columns:
-           out["max_period_prob"] = pd.to_numeric(out["max_period_prob"], errors="coerce").fillna(0.0)
-        else:
-           out["max_period_prob"] = 0.0
+        out["max_period_prob"] = pd.to_numeric(out.get("max_period_prob", np.nan), errors="coerce")
 
     out["source"] = source
     return out.sort_values("report_rank").reset_index(drop=True)
@@ -597,7 +961,7 @@ def sidebar_controls() -> Tuple[str, Optional[object], Optional[str]]:
         uploaded_file = st.file_uploader("上传预测 CSV（可选）", type=["csv"])
         explicit_path = st.text_input("预测文件路径（可选）", value="", placeholder="output_expanding/predictions_20251231.csv")
         st.markdown(
-            "<div class='small-muted'>没有上传或本地文件时，页面会使用演示数据；部署到 Streamlit Cloud 时，把 output_expanding 一起上传即可。</div>",
+            "<div class='small-muted'>部署到 Streamlit Cloud 时，把 output_expanding 和 bnd_info_compact.csv（或 BND_Bndinfo.xlsx）一起上传；系统会自动补全发行机构全称、期限、信用等级。</div>",
             unsafe_allow_html=True,
         )
         return page, uploaded_file, explicit_path.strip() or None
@@ -680,10 +1044,10 @@ def render_home(pred_df: pd.DataFrame, metrics_df: pd.DataFrame, status: Dict[st
     )
 
     st.subheader("高风险债券 TOP 10")
-    show_cols = ["report_rank", "BondCode", "BondName", "Issuer", "risk_bucket_by_y24m", "y6m_prob_display", "y12m_prob_display", "y18m_prob_display", "y24m_prob_display", "most_likely_period"]
-    view = pred_df[show_cols].head(10).copy()
+    show_cols = ["report_rank", "BondCode", "BondName", "Issuer", "IssueDate", "MaturityDate", "risk_bucket_by_y24m", "y6m_prob_display", "y12m_prob_display", "y18m_prob_display", "y24m_prob_display", "most_likely_period", "prob_quality_flag"]
+    view = pred_df.reindex(columns=show_cols).head(10).copy()
     view = format_prediction_table(view)
-    st.dataframe(view, use_container_width=True, hide_index=True)
+    dark_table(view, max_height=420)
 
 
 def render_validation(metrics_df: pd.DataFrame) -> None:
@@ -695,6 +1059,13 @@ def render_validation(metrics_df: pd.DataFrame) -> None:
         "<div class='notice'>测试集表现用于观察模型在不同时间窗口中的稳定性；图表中的指标包括 ROC-AUC、PR-AUC、Brier、Log Loss 与 Top-k Precision / Recall。</div>",
         unsafe_allow_html=True,
     )
+
+    fold_schedule = pd.DataFrame([
+        {"Fold": "Fold1", "训练集": "20070101-20191231", "验证集": "20200101-20201231", "测试集": "20210101-20211231"},
+        {"Fold": "Fold2", "训练集": "20070101-20201231", "验证集": "20210101-20211231", "测试集": "20220101-20221231"},
+        {"Fold": "Fold3", "训练集": "20070101-20211231", "验证集": "20220101-20221231", "测试集": "20230101-20231231"},
+    ])
+    dark_table(fold_schedule, max_height=180)
 
     with st.container():
         c1, c2, c3, c4 = st.columns(4)
@@ -776,10 +1147,10 @@ def render_validation(metrics_df: pd.DataFrame) -> None:
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
         insight_box("图表解读", "如果不同 Fold 之间曲线较平稳，说明模型在不同时间窗口上的表现较一致，具有更好的泛化能力。若出现明显下降，则提示模型可能对某些年份或市场环境更敏感。")
 
-        st.dataframe(format_metric_table(stability), use_container_width=True, hide_index=True)
+        dark_table(format_metric_table(stability), max_height=260)
 
     with tab4:
-        st.dataframe(format_metric_table(df), use_container_width=True, hide_index=True)
+        dark_table(format_metric_table(df), max_height=520)
         csv = df.drop(columns=["horizon_order"], errors="ignore").to_csv(index=False, encoding="utf-8-sig")
         st.download_button("下载 Fold 测试集指标 CSV", data=csv, file_name="fold_test_metrics.csv", mime="text/csv")
 
@@ -850,7 +1221,7 @@ def render_predictions(pred_df: pd.DataFrame) -> None:
         insight_box("图表解读", "左图按照所选期限对高风险债券进行排序。柱子越长，表示该债券在对应预测期限内的违约风险越高；同时处于 Top 1% 或 1–5% 的债券应优先进入预警名单。")
     with c2:
         means = pd.DataFrame({
-            "horizon": [HORIZON_SHORT[h] for h in HORIZON_ORDER],
+            "horizon": [HORIZON_LABELS[h] for h in HORIZON_ORDER],
             "avg_prob": [df[f"{h}_prob_display"].mean() if len(df) else 0 for h in HORIZON_ORDER],
             "max_prob": [df[f"{h}_prob_display"].max() if len(df) else 0 for h in HORIZON_ORDER],
         })
@@ -874,9 +1245,9 @@ def render_predictions(pred_df: pd.DataFrame) -> None:
     )
 
     st.subheader("预测明细")
-    show_cols = ["report_rank", "BondCode", "BondName", "Issuer", "risk_bucket_by_y24m", "y6m_prob_display", "y12m_prob_display", "y18m_prob_display", "y24m_prob_display", "report_rank_pct", "most_likely_period"]
-    view = format_prediction_table(df[show_cols].head(500).copy())
-    st.dataframe(view, use_container_width=True, hide_index=True, height=430)
+    show_cols = ["report_rank", "BondCode", "Issuer", "Term", "CreditRating", "risk_bucket_by_y24m", "y6m_prob_display", "y12m_prob_display", "y18m_prob_display", "y24m_prob_display", "report_rank_pct", "most_likely_period", "prob_quality_flag"]
+    view = format_prediction_table(df.reindex(columns=show_cols).head(500).copy())
+    dark_table(view, max_height=430)
 
     csv = df.to_csv(index=False, encoding="utf-8-sig")
     st.download_button("下载当前筛选结果 CSV", data=csv, file_name="bond_default_predictions_filtered.csv", mime="text/csv")
@@ -944,7 +1315,7 @@ def render_bond_query(pred_df: pd.DataFrame) -> None:
         <div class="card">
           <div class="eyebrow">Bond Detail</div>
           <h3 style="margin: 6px 0 8px 0;">{row.get('BondName', row.get('BondCode', ''))}</h3>
-          <div class="small-muted">代码：{row.get('BondCode', row.get('Liscd', ''))}　|　发行人：{row.get('Issuer', '未知')}　|　预测日期：{row.get('PeriodEnd', '未知')}</div>
+          <div class="small-muted">代码：{row.get('BondCode', row.get('Liscd', ''))}　|　发行人：{row.get('Issuer', '—')}　|　预测日期：{row.get('PeriodEnd', '未知')}</div>
           <div style="margin-top: 12px;">{display_bucket(bucket)} <span class="badge badge-purple">Rank #{int(row.get('report_rank', 0))}</span> <span class="badge badge-green">排名百分位 {pct(rank_pct)}</span></div>
         </div>
         """,
@@ -960,6 +1331,12 @@ def render_bond_query(pred_df: pd.DataFrame) -> None:
         st.markdown(f"""<div class="risk-card"><div class="risk-card-label">Top 1% 高风险</div><div class="risk-card-value" style="color:{'#fecaca' if is_top1 else '#bbf7d0'};">{'是' if is_top1 else '否'}</div><div class="risk-card-help">按未来24个月风险排名判断</div></div>""", unsafe_allow_html=True)
     with c4:
         st.markdown(f"""<div class="risk-card"><div class="risk-card-label">重点期限风险</div><div class="risk-card-value">{pct(row[f'{rank_horizon}_prob_display'])}</div><div class="risk-card-help">{HORIZON_LABELS[rank_horizon]}</div></div>""", unsafe_allow_html=True)
+
+    if row.get("prob_quality_flag", "正常") != "正常":
+        st.markdown(
+            f"<div class='notice'>概率字段检查：<b>{row.get('prob_quality_flag')}</b>。这通常表示部分预测期限未正确接入、期限结构异常，或出现未来24个月概率异常跳升，建议回到预测 CSV 对应行核查。</div>",
+            unsafe_allow_html=True,
+        )
 
     st.markdown(
         f"""
@@ -998,13 +1375,18 @@ def render_bond_query(pred_df: pd.DataFrame) -> None:
         insight_box("图表解读", "该图把累计违约概率拆分为各时间区间的新增风险贡献，有助于判断风险更可能集中在近期还是中长期。")
 
     detail = pd.DataFrame({
-        "项目": ["债券代码", "债券名称", "发行人", "预测日期", "风险分层", "排名", "排名百分位", "未来6个月违约概率", "未来12个月违约概率", "未来18个月违约概率", "未来24个月违约概率"],
+        "项目": [
+            "债券代码", "债券名称", "发行机构全称", "期限", "信用等级",
+            "预测日期", "风险分层", "排名", "排名百分位", "未来6个月违约概率", "未来12个月违约概率",
+            "未来18个月违约概率", "未来24个月违约概率", "概率字段检查",
+        ],
         "内容": [
-            row.get("BondCode", "—"), row.get("BondName", "—"), row.get("Issuer", "—"), row.get("PeriodEnd", "—"), bucket,
-            int(row.get("report_rank", 0)), pct(rank_pct), pct(y6), pct(y12), pct(y18), pct(y24),
+            row.get("BondCode", "—"), row.get("BondName", "—"), row.get("Issuer", "—"), row.get("Term", "—"), row.get("CreditRating", "—"),
+            row.get("PeriodEnd", "—"), bucket, int(row.get("report_rank", 0)), pct(rank_pct),
+            pct(y6), pct(y12), pct(y18), pct(y24), row.get("prob_quality_flag", "—"),
         ],
     })
-    st.dataframe(detail, use_container_width=True, hide_index=True)
+    dark_table(detail, max_height=420)
 
 
 def render_model_note(metrics_df: pd.DataFrame) -> None:
@@ -1055,7 +1437,7 @@ def render_model_note(metrics_df: pd.DataFrame) -> None:
     )
 
     st.markdown("### 历史测试表现摘要")
-    st.dataframe(format_metric_table(metrics_df), use_container_width=True, hide_index=True)
+    dark_table(format_metric_table(metrics_df), max_height=520)
 
 def render_data_status(pred_df: pd.DataFrame, status: Dict[str, object]) -> None:
     section_header(
@@ -1065,36 +1447,51 @@ def render_data_status(pred_df: pd.DataFrame, status: Dict[str, object]) -> None
 
     expected = [
         f"{DEFAULT_OUTPUT_DIR}/predictions_*.csv",
+        "bnd_info_compact.csv / BND_Bndinfo.xlsx（用于补全发行机构全称、期限、信用等级）",
         "fold_test_metrics.csv（可选，用于替换内置测试集指标）",
     ]
     rows = []
     for item in expected:
-        if "*.csv" in item:
+        if "predictions_*.csv" in item:
             matched = glob.glob(item)
             rows.append({"项目": item, "状态": "存在" if matched else "缺失", "说明": "; ".join(matched[:3]) if matched else "未发现"})
+        elif "BND_Bndinfo" in item or "bnd_info" in item or "债券基本信息" in item:
+            info_status = status.get("bnd_info", {})
+            rows.append({"项目": item, "状态": "存在" if info_status.get("found") else "缺失", "说明": info_status.get("message", "未读取")})
         else:
             rows.append({"项目": item, "状态": "内置", "说明": "当前页面已内置测试集指标，也可以后续替换为外部 CSV。"})
 
     st.markdown(
         f"""
         <div class="notice">
-        当前读取模式：<b>{status.get('mode')}</b>；来源：<b>{status.get('source_path') or 'demo data'}</b>；当前预测行数：<b>{len(pred_df):,}</b>。
+        当前读取模式：<b>{status.get('mode')}</b>；来源：<b>{status.get('source_path') or 'demo data'}</b>；当前预测行数：<b>{len(pred_df):,}</b>。<br/>
+        债券基本信息表：<b>{status.get('bnd_info', {}).get('message', '未读取')}</b>。
         </div>
         """,
         unsafe_allow_html=True,
     )
-    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+    dark_table(pd.DataFrame(rows), max_height=260)
 
     st.markdown("### 预测文件需要包含的最低字段")
-    st.code(
-        """Liscd, PeriodEnd, sem_str, y6m_cum_prob, y12m_cum_prob, y18m_cum_prob, y24m_cum_prob
-# 可选字段：BondCode, BondName, Issuer, most_likely_period, max_period_prob""",
-        language="text",
+    st.markdown(
+        """<div class="field-code-box">Liscd, PeriodEnd, sem_str, y6m_cum_prob, y12m_cum_prob, y18m_cum_prob, y24m_cum_prob<br><span class="comment"># 可选字段：BondCode, BondName, Issuer, most_likely_period, max_period_prob</span></div>""",
+        unsafe_allow_html=True,
     )
+
+    if "prob_quality_flag" in pred_df.columns:
+        st.markdown("### 概率字段检查")
+        qdf = pred_df["prob_quality_flag"].value_counts(dropna=False).reset_index()
+        qdf.columns = ["检查结果", "债券数"]
+        dark_table(qdf, max_height=180)
+
+    if "bnd_info_matched" in pred_df.columns:
+        st.markdown("### 债券基本信息匹配情况")
+        mdf = pd.DataFrame({"匹配状态": ["匹配"], "债券数": [len(pred_df)]})
+        dark_table(mdf, max_height=160)
 
     preview = format_prediction_table(pred_df.head(20).copy())
     st.markdown("### 当前数据预览")
-    st.dataframe(preview, use_container_width=True, hide_index=True)
+    dark_table(preview, max_height=430)
 
 
 # =============================================================================
@@ -1105,7 +1502,7 @@ def format_metric_table(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
     rename = {
         "fold": "Fold",
-        "test_year": "测试集",
+        "test_year": "测试窗口",
         "horizon": "期限",
         "n_samples": "样本数",
         "n_positive": "正样本",
@@ -1143,7 +1540,14 @@ def format_prediction_table(df: pd.DataFrame) -> pd.DataFrame:
         "rank_for_view": "展示排名",
         "BondCode": "债券代码",
         "BondName": "债券名称",
-        "Issuer": "发行人",
+        "Issuer": "发行机构全称",
+        "IssueDate": "发行日期",
+        "MaturityDate": "到期日期",
+        "BondType": "债券类型",
+        "CreditRating": "信用等级",
+        "Term": "期限",
+        "CouponRate": "票面利率",
+        "IssueAmount": "发行规模（亿元）",
         "risk_bucket_by_y24m": "风险分层",
         "y6m_prob_display": "未来6个月违约概率",
         "y12m_prob_display": "未来12个月违约概率",
@@ -1151,6 +1555,7 @@ def format_prediction_table(df: pd.DataFrame) -> pd.DataFrame:
         "y24m_prob_display": "未来24个月违约概率",
         "report_rank_pct": "排名百分位",
         "most_likely_period": "最可能时段",
+        "prob_quality_flag": "概率检查",
     }
     out = out.rename(columns=rename)
     for c in ["未来6个月违约概率", "未来12个月违约概率", "未来18个月违约概率", "未来24个月违约概率", "排名百分位"]:
